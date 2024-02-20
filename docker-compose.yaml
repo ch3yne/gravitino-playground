@@ -2,14 +2,14 @@
 # Copyright 2023 Datastrato Pvt Ltd.
 # This software is licensed under the Apache License version 2.
 #
-version: '3.0'
+
 services:
   hive:
     image: datastrato/hive:2.7.3-no-yarn
     ports:
-      - "3307:3306"
-      - "9000:9000"
-      - "9083:9083"
+      - "3309:3306"
+      - "9010:9000"
+      - "9084:9083"
       - "50070:50070"
     container_name: playground-hive
     environment:
@@ -32,8 +32,8 @@ services:
     image: datastrato/gravitino:0.5.0
     entrypoint: /bin/bash /tmp/gravitino/init.sh
     ports:
-      - "8090:8090"
-      - "9001:9001"
+      - "8091:8090"
+      - "9011:9001"
     container_name: playground-gravitino
     depends_on:
       hive :
@@ -55,12 +55,12 @@ services:
   trino:
     image: datastrato/trino:426-gravitino-0.5.0
     ports:
-      - "8080:8080"
+      - "8187:8080"
     container_name: playground-trino
     environment:
       - HADOOP_USER_NAME=root
       - GRAVITINO_HOST_IP=gravitino
-      - GRAVITINO_HOST_PORT=8090
+      - GRAVITINO_HOST_PORT=8091
       - GRAVITINO_METALAKE_NAME=metalake_demo
       - HIVE_HOST_IP=hive
     entrypoint:  /bin/bash /tmp/trino/init.sh
@@ -86,7 +86,7 @@ services:
       POSTGRES_PASSWORD: postgres
       ALLOW_IP_RANGE: 0.0.0.0/0
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - ./init/postgres:/docker-entrypoint-initdb.d/
     deploy:
@@ -99,7 +99,7 @@ services:
     image: mysql:8.0
     container_name: playground-mysql
     ports:
-      - "3306:3306"
+      - "3308:3306"
     volumes:
       - ./init/mysql:/docker-entrypoint-initdb.d/
     environment:
