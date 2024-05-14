@@ -10,7 +10,7 @@ services:
       - "3309:3306"
       - "9010:9000"
       - "9084:9083"
-      - "50070:50070"
+      - "50077:50070"
     container_name: playground-hive
     environment:
       - HADOOP_USER_NAME=root
